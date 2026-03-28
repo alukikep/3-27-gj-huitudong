@@ -21,6 +21,16 @@ public class DataManager : Singleton<DataManager>
     public float adventurerEfficiency;//冒险者效率，可以设置为每隔一段时间获得的金币数
     public float coinCount;//当前拥有的金币数
 
+    void OnEnable()
+    {
+        EventManager.AddListener<int>("UnlockTechTree", TechTreeEffect);
+    }
+
+    void OnDisable()
+    {
+        EventManager.RemoveListener<int>("UnlockTechTree", TechTreeEffect);
+    }
+
     public void AdventurerUpgrade(float amount)//可以升级时调用也可以解锁科技树提高工人效率时调用
     {
         adventurerEfficiency += amount;
@@ -35,5 +45,61 @@ public class DataManager : Singleton<DataManager>
     {
         coinCount += amount;
         //UI更新逻辑
+    }
+
+
+    private void TechTreeEffect(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                break;
+            case 12:
+                break;
+            case 13:
+                break;
+            case 14:
+                break;
+            case 15:
+                break;
+            case 16:
+                break;
+            case 17:
+                break;
+            case 18:
+                break;
+            case 20:
+                break;
+            case 21:
+                break;
+            case 22:
+                break;
+            case 23:
+                break;
+            case 24:
+                break;
+        }
     }
 }

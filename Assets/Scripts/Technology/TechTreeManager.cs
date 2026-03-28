@@ -73,6 +73,7 @@ public class TechTreeManager : MonoBehaviour
 
         // 更新 UI
         GetUI(id)?.SetUnlocked();
+        EventManager.Broadcast("UnlockTechTree", id);//添加事件广播
 
         // 刷新周围节点状态
         UpdateNeighbors(id);
