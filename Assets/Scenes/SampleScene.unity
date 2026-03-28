@@ -1468,10 +1468,6 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
-      propertyPath: workerData
-      value: 
-      objectReference: {fileID: 11400000, guid: acbd3d50b41fa0742b706381a16c24e6, type: 2}
-    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: currentTime
       value: 1
       objectReference: {fileID: 0}
@@ -1487,14 +1483,6 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
-      propertyPath: spriteRenderer
-      value: 
-      objectReference: {fileID: 402733328}
-    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
-      propertyPath: coinsTextPrefab
-      value: 
-      objectReference: {fileID: 4831817240218204061, guid: 0a046d00da0f56e45bf7e0f1ebcbf82a, type: 3}
     - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: buildSubtractTime
       value: 1
