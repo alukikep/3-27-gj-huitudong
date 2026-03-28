@@ -20,10 +20,12 @@ public class Adventurer : MonoBehaviour
     public float buildSubtractTime = 1;//建筑减少的时间间隔
     [SerializeField] private adventurerState currentState;
     [SerializeField] private TMP_Text coinsTextPrefab;
+    [SerializeField] private Worker workerData;
     private float workTimer;//计时器
     // Start is called before the first frame update
     void Start()
     {
+        Setup(workerData);
         currentHealth = maxHealth;
         healthBar.color = Color.green;
     }
@@ -65,6 +67,14 @@ public class Adventurer : MonoBehaviour
 
 
 
+    }
+
+    //初始化工人
+    private void Setup(Worker workerData)
+    {
+        spriteRenderer.sprite = workerData.sprite;
+        currentEfficiency = DataManager.Instance.adventurerEfficiency * workerData.initialEffeciency;
+        maxHealth = workerData.maxHealth;
     }
 
     private void UpdateHealthBar()
@@ -171,6 +181,14 @@ public class Adventurer : MonoBehaviour
 
         // 生成金币特效文本
         ShowCoinText(coins);
+
+        // 获得金币时的膨大缩小动画效果
+        transform.DOKill();
+        transform.DOScale(Vector3.one * 1.3f, 0.1f).SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InQuad);
+            });
     }
 
     private void ShowCoinText(float coins)
@@ -237,6 +255,7 @@ public class Adventurer : MonoBehaviour
             currentDamage = DataManager.Instance.area4Damage;
         }
         currentEfficiency = DataManager.Instance.adventurerEfficiency;
+        workTimer = currentTime;
 
         //设置对应区域的数值
     }
