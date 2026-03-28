@@ -22,6 +22,8 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private TMP_Text coinsTextPrefab;
     [SerializeField] private Worker workerData;
     private float workTimer;//计时器
+    [SerializeField] private TMP_Text coinsUIText;
+    [SerializeField] private TMP_Text timerUIText;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,8 +65,7 @@ public class Adventurer : MonoBehaviour
             workTimer = currentTime;
         }
 
-
-
+        UpdateUI();
 
 
     }
@@ -258,6 +259,17 @@ public class Adventurer : MonoBehaviour
         workTimer = currentTime;
 
         //设置对应区域的数值
+    }
+    
+    private void UpdateUI()
+    {
+        // 显示金币（保留整数）
+        if (coinsUIText != null)
+            coinsUIText.text = $"Coins: {DataManager.Instance.coinCount:F0}";
+
+        // 显示计时器
+        if (timerUIText != null)
+            timerUIText.text = $"Time: {Mathf.Max(workTimer,0):F1}s";
     }
 
 
