@@ -721,6 +721,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1001 &378630997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -838,6 +839,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf3b52a28a6b76f49a40d1712cc359c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+--- !u!212 &402733328 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4967651560119278101, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+  m_PrefabInstance: {fileID: 2975391522672808053}
+  m_PrefabAsset: {fileID: 0}
+>>>>>>> 996625ad734e7fc209e8c3f94663291d2144ffed
 --- !u!1 &502455005
 GameObject:
   m_ObjectHideFlags: 0
@@ -4488,6 +4496,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: workerData
+      value: 
+      objectReference: {fileID: 11400000, guid: acbd3d50b41fa0742b706381a16c24e6, type: 2}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: currentTime
       value: 1
       objectReference: {fileID: 0}
@@ -4503,6 +4515,14 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 402733328}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: coinsTextPrefab
+      value: 
+      objectReference: {fileID: 4831817240218204061, guid: 0a046d00da0f56e45bf7e0f1ebcbf82a, type: 3}
     - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: buildSubtractTime
       value: 1
