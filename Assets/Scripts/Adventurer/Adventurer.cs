@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum adventurerState { ISDRAGGING, REST, WORKEAST, WORK, WORKHARD, }
+public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEAST, WORK, WORKHARD, }
 
 public class Adventurer : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private Image healthBar;
     public float currentEfficiency;//获取金币的数量
     public float currentTime;//获取金币的时间间隔
+    public float currentDamage;//获取伤害用于扣玩家生命值
     public float maxHealth;
     public float currentHealth;//生命值，跌到0会"罢工"一段时间
     public float buildAddEffeciency;//建筑增加的金币数
@@ -23,19 +24,40 @@ public class Adventurer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        currentHealth = maxHealth;
+        healthBar.color = Color.green;
     }
 
     // Update is called once per frame
     void Update()
     {
         workTimer -= Time.deltaTime;
-        if (workTimer < 0 && currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
+        currentHealth -= currentDamage * Time.deltaTime;
+        UpdateHealthBar();
+        if (currentHealth < 0)
+        {
+            currentState = adventurerState.DEFEAT;
+            //设置回血速度
+            healthBar.color = Color.red;
+        }
+        if (workTimer < 0 && currentState != adventurerState.DEFEAT && currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
         {
             GetCoin();
-            workTimer = 0.2f;//测试
+            workTimer = currentTime;//测试
+        }
+        if (currentHealth == maxHealth && currentState == adventurerState.DEFEAT)
+        {
+            CheckArea();
+            healthBar.color = Color.green;
         }
 
+
+
+    }
+
+    private void UpdateHealthBar()
+    {
+        healthBar.fillAmount = currentHealth / maxHealth;
     }
 
     private void UpdateCurrentEffeciency()
@@ -105,7 +127,7 @@ public class Adventurer : MonoBehaviour
                     currentState = adventurerState.WORKHARD;
                     break;
             }
-
+            SetAreaEffect();
             Debug.Log($"冒险者进入区域: {layerName}, 状态: {currentState}, 效率: {currentEfficiency}, 间隔: {currentTime}");
         }
         else
@@ -183,6 +205,11 @@ public class Adventurer : MonoBehaviour
 
             sequence.Play();
         }
+    }
+
+    private void SetAreaEffect()
+    {
+        //设置对应区域的数值
     }
 
 
