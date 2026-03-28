@@ -1237,11 +1237,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dfab609ff9c3c49937191d2832ce23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  area1Time: 0
-  area2Time: 0
-  area3Time: 0
-  area4Time: 0
-  adventurerEfficiency: 0
+  area1Time: 10
+  area1Damage: -5
+  area2Time: 5
+  area2Damage: -1
+  area3Time: 1
+  area3Damage: 4
+  area4Time: 0.5
+  area4Damage: 10
+  adventurerEfficiency: 2
   coinCount: 0
 --- !u!1 &2005005084
 GameObject:
@@ -1322,6 +1326,46 @@ PrefabInstance:
     - target: {fileID: 910436356979593532, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: m_Name
       value: adventure
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812220589528845654, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_Size.y
+      value: 2.0342019
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812220589528845654, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.01710093
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: currentTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: currentState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: currentDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: currentHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: buildSubtractTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: currentEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511990921695393425, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: buildAddEffeciency
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
       propertyPath: m_LocalPosition.x

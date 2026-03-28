@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEAST, WORK, WORKHARD, }
+public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEASY, WORK, WORKHARD, }
 
 public class Adventurer : MonoBehaviour
 {
@@ -14,10 +14,10 @@ public class Adventurer : MonoBehaviour
     public float currentEfficiency;//获取金币的数量
     public float currentTime;//获取金币的时间间隔
     public float currentDamage;//获取伤害用于扣玩家生命值
-    public float maxHealth;
+    public float maxHealth = 100;
     public float currentHealth;//生命值，跌到0会"罢工"一段时间
-    public float buildAddEffeciency;//建筑增加的金币数
-    public float buildSubtractTime;//建筑减少的时间间隔
+    public float buildAddEffeciency = 1;//建筑增加的金币数
+    public float buildSubtractTime = 1;//建筑减少的时间间隔
     [SerializeField] private adventurerState currentState;
     [SerializeField] private TMP_Text coinsTextPrefab;
     private float workTimer;//计时器
@@ -31,25 +31,37 @@ public class Adventurer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        workTimer -= Time.deltaTime;
-        currentHealth -= currentDamage * Time.deltaTime;
+        //拖拽时时间暂停
+        if (currentState != adventurerState.ISDRAGGING)
+        {
+            workTimer -= Time.deltaTime;
+            currentHealth -= currentDamage * Time.deltaTime;
+        }
+
         UpdateHealthBar();
+        //罢工逻辑
         if (currentHealth < 0)
         {
             currentState = adventurerState.DEFEAT;
+            currentDamage = -2;
             //设置回血速度
             healthBar.color = Color.red;
         }
-        if (workTimer < 0 && currentState != adventurerState.DEFEAT && currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
+        //从罢工中恢复的逻辑
+        if (currentHealth >= maxHealth && currentState == adventurerState.DEFEAT)
         {
-            GetCoin();
-            workTimer = currentTime;//测试
-        }
-        if (currentHealth == maxHealth && currentState == adventurerState.DEFEAT)
-        {
+            currentState = adventurerState.REST;
             CheckArea();
             healthBar.color = Color.green;
         }
+        //获取金币逻辑
+        if (workTimer < 0 && currentState != adventurerState.DEFEAT && currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
+        {
+            GetCoin();
+            workTimer = currentTime;
+        }
+
+
 
 
 
@@ -82,9 +94,13 @@ public class Adventurer : MonoBehaviour
 
         // 更新物体位置
         transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
+        gameObject.transform.DOScale(Vector3.one * 1.2f, 0.15f);
 
         // 设置状态为拖拽中
-        currentState = adventurerState.ISDRAGGING;
+        if (currentState != adventurerState.DEFEAT)
+        {
+            currentState = adventurerState.ISDRAGGING;
+        }
     }
 
     void OnMouseUp()
@@ -96,6 +112,10 @@ public class Adventurer : MonoBehaviour
             // 拖拽结束时检查区域
             CheckArea();
         }
+        else
+        {
+            gameObject.transform.DOScale(Vector3.one, 0.15f);
+        }
     }
 
     void OnMouseExit()
@@ -105,11 +125,11 @@ public class Adventurer : MonoBehaviour
 
     private void CheckArea()
     {
-        int layerMask = LayerMask.GetMask("EasyArea", "NormalArea", "HardArea");
+        int layerMask = LayerMask.GetMask("EasyArea", "NormalArea", "HardArea", "RestArea");
         // 使用 Physics2D.OverlapPoint 检测当前位置有什么碰撞体
         Collider2D collider = Physics2D.OverlapPoint(transform.position, layerMask);
 
-        if (collider != null)
+        if (collider != null && currentState != adventurerState.DEFEAT)
         {
             // 获取碰撞体所在图层
             string layerName = LayerMask.LayerToName(collider.gameObject.layer);
@@ -118,13 +138,16 @@ public class Adventurer : MonoBehaviour
             switch (layerName)
             {
                 case "EasyArea":
-                    currentState = adventurerState.WORKEAST;
+                    currentState = adventurerState.WORKEASY;
                     break;
                 case "NormalArea":
                     currentState = adventurerState.WORK;
                     break;
                 case "HardArea":
                     currentState = adventurerState.WORKHARD;
+                    break;
+                case "RestArea":
+                    currentState = adventurerState.REST;
                     break;
             }
             SetAreaEffect();
@@ -134,29 +157,11 @@ public class Adventurer : MonoBehaviour
         {
             // 没有检测到碰撞体，设置为休息状态
             currentState = adventurerState.REST;
-            currentEfficiency = 0f;
-            currentTime = 0f;
+            SetAreaEffect();
             Debug.Log("冒险者不在任何区域，算作休息区，休息中");
         }
     }
 
-    private void SetEfficiencyBaseOnArea()
-    {
-        switch (currentState)//根据区域调整效率
-        {
-            case adventurerState.REST:
-                break;
-            case adventurerState.WORKEAST:
-                break;
-            case adventurerState.WORK:
-                break;
-            case adventurerState.WORKHARD:
-                break;
-            case adventurerState.ISDRAGGING:
-                break;
-
-        }
-    }
 
     private void GetCoin()
     {
@@ -209,6 +214,30 @@ public class Adventurer : MonoBehaviour
 
     private void SetAreaEffect()
     {
+        //后续检查是否需要添加处理
+        if (currentState == adventurerState.REST)
+        {
+            //时间间隔，伤害;
+            currentTime = DataManager.Instance.area1Time;
+            currentDamage = DataManager.Instance.area1Damage;
+        }
+        else if (currentState == adventurerState.WORKEASY)
+        {
+            currentTime = DataManager.Instance.area2Time;
+            currentDamage = DataManager.Instance.area2Damage;
+        }
+        else if (currentState == adventurerState.WORK)
+        {
+            currentTime = DataManager.Instance.area3Time;
+            currentDamage = DataManager.Instance.area3Damage;
+        }
+        else if (currentState == adventurerState.WORKHARD)
+        {
+            currentTime = DataManager.Instance.area4Time;
+            currentDamage = DataManager.Instance.area4Damage;
+        }
+        currentEfficiency = DataManager.Instance.adventurerEfficiency;
+
         //设置对应区域的数值
     }
 

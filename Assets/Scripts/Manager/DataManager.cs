@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
 {
+    //area1 休息区
+    //area2 轻工厂
+    //area3 重工厂
+    //area4 地狱工厂
+
+    //后续有需求可以用SO填数据
     public float area1Time;//冒险者在每个区域的工作效率，可以设置为获取金币时间间隔或者获取金币倍率，我个人倾向于获取金币时间间隔
+    public float area1Damage;
     public float area2Time;
+    public float area2Damage;
     public float area3Time;
+    public float area3Damage;
     public float area4Time;
+    public float area4Damage;
     public float adventurerEfficiency;//冒险者效率，可以设置为每隔一段时间获得的金币数
     public float coinCount;//当前拥有的金币数
 
@@ -23,7 +33,7 @@ public class DataManager : Singleton<DataManager>
 
     public void ChangeCoins(float amount)
     {
-        coinCount+=amount;
+        coinCount += amount;
         //UI更新逻辑
     }
 }
