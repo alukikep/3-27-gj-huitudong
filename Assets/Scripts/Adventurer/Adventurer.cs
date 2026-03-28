@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum adventurerState { ISDRAGGING, REST, WORKEAST, WORK, WORKHARD, }
 
 public class Adventurer : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Image healthBar;
     public float currentEfficiency;//获取金币的数量
     public float currentTime;//获取金币的时间间隔
     public float maxHealth;
