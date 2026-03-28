@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEASY, WORK, WORKHARD, }
-public enum generateItemType { Coin, SimpleEquipment, AdvancedEquipment }
 
 public class Adventurer : MonoBehaviour
 {
@@ -20,13 +19,13 @@ public class Adventurer : MonoBehaviour
     public float buildAddEffeciency = 1;//建筑增加的金币数
     public float buildSubtractTime = 1;//建筑减少的时间间隔
     [SerializeField] private adventurerState currentState;
-    [SerializeField] private GameObject coinsTextPrefab;
+    [SerializeField] private TMP_Text coinsTextPrefab;
     [SerializeField] private Worker workerData;
-    [SerializeField] private generateItemType generateItemType;
     private float workTimer;//计时器
     // Start is called before the first frame update
     void Start()
     {
+        Setup(workerData);
         currentHealth = maxHealth;
         healthBar.color = Color.green;
     }
