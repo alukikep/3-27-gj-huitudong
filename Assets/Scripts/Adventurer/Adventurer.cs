@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -7,10 +8,20 @@ using UnityEngine.UI;
 
 public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEASY, WORK, WORKHARD, }
 
+[System.Serializable]
+
 public class Adventurer : MonoBehaviour
 {
+
+    [Header("组件")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Image healthBar;
+    [SerializeField] private string workAnim;
+    [SerializeField] private string tiredAnim;
+    [SerializeField] private string dieAnim;
+    public Dictionary<string, string> stateToAnim = new();
+
+    private Animator animator;
     public float currentEfficiency;//获取金币的数量
     public float currentTime;//获取金币的时间间隔
     public float currentDamage;//获取伤害用于扣玩家生命值
@@ -20,17 +31,25 @@ public class Adventurer : MonoBehaviour
     public float buildSubtractTime = 1;//建筑减少的时间间隔
     [SerializeField] private adventurerState currentState;
     [SerializeField] private TMP_Text coinsTextPrefab;
-    [SerializeField] private Worker workerData;
+    [SerializeField] private Sprite draggingSprite;
     private float workTimer;//计时器
+    private bool isTired;
+    private Sprite originalSprite;//保存原始精灵图片
+    private string lastAnimationName;//拖拽前播放的动画名字
     [SerializeField] private TMP_Text coinsUIText;
     [SerializeField] private TMP_Text timerUIText;
     // Start is called before the first frame update
     void Start()
     {
-        Setup(workerData);
         currentHealth = maxHealth;
         healthBar.color = Color.green;
+        animator = this.GetComponent<Animator>();
+        stateToAnim["work"] = workAnim;
+        stateToAnim["tired"] = tiredAnim;
+        stateToAnim["die"] = dieAnim;
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -44,12 +63,18 @@ public class Adventurer : MonoBehaviour
 
         UpdateHealthBar();
         //罢工逻辑
-        if (currentHealth < 0)
+        if (currentHealth < 0 && isTired == false)
         {
             currentState = adventurerState.DEFEAT;
-            currentDamage = -2;
+            isTired = true;
+            animator.Play(stateToAnim["tired"]);
+            currentDamage = -10;
             //设置回血速度
             healthBar.color = Color.red;
+        }
+        else if (currentHealth < 0 && isTired == true)
+        {
+            StartCoroutine(WorkerDieAnim());
         }
         //从罢工中恢复的逻辑
         if (currentHealth >= maxHealth && currentState == adventurerState.DEFEAT)
@@ -70,13 +95,6 @@ public class Adventurer : MonoBehaviour
 
     }
 
-    //初始化工人
-    private void Setup(Worker workerData)
-    {
-        spriteRenderer.sprite = workerData.sprite;
-        currentEfficiency = DataManager.Instance.adventurerEfficiency * workerData.initialEffeciency;
-        maxHealth = workerData.maxHealth;
-    }
 
     private void UpdateHealthBar()
     {
@@ -98,6 +116,27 @@ public class Adventurer : MonoBehaviour
 
     void OnMouseDrag()
     {
+        if (currentState == adventurerState.DEFEAT) return;
+        // 首次进入拖拽时保存状态和动画名
+        if (currentState != adventurerState.ISDRAGGING)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            originalSprite = sr.sprite; // 保存原始精灵
+
+            // 获取当前播放的动画名
+            if (animator != null)
+            {
+                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                lastAnimationName = animator.GetLayerName(0) + "." + stateInfo.shortNameHash;
+            }
+
+            animator.enabled = false; // 禁用Animator
+        }
+
+        // 设置拖拽图片
+        SpriteRenderer sr2 = GetComponent<SpriteRenderer>();
+        sr2.sprite = draggingSprite;
+
         // 将鼠标屏幕坐标转换为世界坐标
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = -Camera.main.transform.position.z; // 设置Z轴为相机到物体的距离
@@ -108,10 +147,7 @@ public class Adventurer : MonoBehaviour
         gameObject.transform.DOScale(Vector3.one * 1.2f, 0.15f);
 
         // 设置状态为拖拽中
-        if (currentState != adventurerState.DEFEAT)
-        {
-            currentState = adventurerState.ISDRAGGING;
-        }
+        currentState = adventurerState.ISDRAGGING;
     }
 
     void OnMouseUp()
@@ -120,6 +156,20 @@ public class Adventurer : MonoBehaviour
         {
             gameObject.transform.DOScale(Vector3.one, 0.15f);
             currentState = adventurerState.REST;
+
+            // 恢复动画器
+            animator.enabled = true;
+
+            // 恢复原始精灵图片
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            sr.sprite = originalSprite;
+
+            // 用拖拽前存储的动画名播放动画
+            if (!string.IsNullOrEmpty(lastAnimationName))
+            {
+                animator.Play(lastAnimationName);
+            }
+
             // 拖拽结束时检查区域
             CheckArea();
         }
@@ -260,7 +310,7 @@ public class Adventurer : MonoBehaviour
 
         //设置对应区域的数值
     }
-    
+
     private void UpdateUI()
     {
         // 显示金币（保留整数）
@@ -269,9 +319,47 @@ public class Adventurer : MonoBehaviour
 
         // 显示计时器
         if (timerUIText != null)
-            timerUIText.text = $"Time: {Mathf.Max(workTimer,0):F1}s";
+            timerUIText.text = $"Time: {Mathf.Max(workTimer, 0):F1}s";
     }
 
+    private IEnumerator WorkerDieAnim()
+    {
+        // 确保Animator启用
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+        
+        // 1. 播放死亡动画
+        if (animator != null && stateToAnim.ContainsKey("die"))
+        {
+            animator.Play(stateToAnim["die"]);
+        }
+
+        // 2. 等待动画播放完成（假设死亡动画时长1秒，可根据实际情况调整）
+        float animDuration = 1f;
+        yield return new WaitForSeconds(animDuration);
+
+        // 3. 逐渐透明淡出
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            float fadeDuration = 0.5f;
+            float elapsed = 0f;
+            Color originalColor = sr.color;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+                sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                yield return null;
+            }
+        }
+
+        // 4. 销毁游戏对象
+        Destroy(gameObject);
+    }
 
 
 }
