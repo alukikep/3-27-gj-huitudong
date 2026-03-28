@@ -21,7 +21,7 @@ public class DataManager : Singleton<DataManager>
     public float adventurerEfficiency;//冒险者效率，可以设置为每隔一段时间获得的金币数
     public float coinCount;//当前拥有的金币数
 
-    public void AdventurerUpgrade(float amount)//可以升级时调用也可以解锁科技树提高工人效率时调用
+    public void AdventurerUpgrade(float amount)//可以升级时调用也可以解锁科技树提高工人效率时调用，增加整体效率
     {
         adventurerEfficiency += amount;
     }

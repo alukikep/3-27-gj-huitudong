@@ -103,12 +103,15 @@ MonoBehaviour:
   healthBar: {fileID: 7083714486482185047}
   currentEfficiency: 0
   currentTime: 0
+  currentDamage: 0
   maxHealth: 0
   currentHealth: 0
   buildAddEffeciency: 0
   buildSubtractTime: 0
   currentState: 1
   coinsTextPrefab: {fileID: 9031168173803230534, guid: 0a046d00da0f56e45bf7e0f1ebcbf82a, type: 3}
+  workerData: {fileID: 0}
+  coinIcon: {fileID: 0}
 --- !u!70 &3812220589528845654
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

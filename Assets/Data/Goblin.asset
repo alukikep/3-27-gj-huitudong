@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d2b00c71510e948be5aba44e2326be, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  initialEffeciency: 0
-  maxHealth: 0
+  sprite: {fileID: -9095717837082945937, guid: bd3cb4af8406d4436a2ae8c2aafe1f8d, type: 3}
+  initialEffeciency: 1
+  maxHealth: 100
