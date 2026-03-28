@@ -6,7 +6,61 @@
   <component name="ChangeListManager">
     <list default="true" id="d4555312-9084-4b8c-a10d-e9b4c54e0c5d" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3-27-gj-huitudong/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3-27-gj-huitudong/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resource/UI/标签.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/UI/标签.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Adventurer/Adventurer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Adventurer/Adventurer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/TechTreeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/TechTreeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Technology/TechTreeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Technology/TechTreeManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/AdventurerUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/AdventurerUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_0.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_0.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_0.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_0.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_1.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_1.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_10.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_10.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_10.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_10.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_11.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_11.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_11.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_11.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_12.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_12.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_12.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_12.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_13.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_13.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_13.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_13.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_14.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_14.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_14.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_14.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_15.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_15.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_15.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_15.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_16.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_16.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_16.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_16.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_17.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_17.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_17.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_17.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_18.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_18.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_18.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_18.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_19.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_19.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_19.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_19.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_2.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_2.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_20.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_20.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_20.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_20.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_21.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_21.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_22.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_22.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_23.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_23.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_24.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_24.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_3.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_3.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_4.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_4.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_4.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_4.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_5.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_5.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_5.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_5.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_6.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_6.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_6.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_6.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_7.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_7.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_7.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_7.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_8.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_8.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_8.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_8.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_9.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_9.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TechNodes/Node_9.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TechNodes/Node_9.asset.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,25 +87,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ui&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "uiyouhua",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="附加到 Unity 编辑器.附加到 Unity 编辑器">
     <configuration name="启动 Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f2c1\Editor\Unity.exe" />
@@ -103,6 +157,7 @@
       <workItem from="1774684032605" duration="713000" />
       <workItem from="1774699172068" duration="470000" />
       <workItem from="1774699730259" duration="274000" />
+      <workItem from="1774713843259" duration="2162000" />
     </task>
     <servers />
   </component>

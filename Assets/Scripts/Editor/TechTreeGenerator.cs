@@ -15,9 +15,9 @@ public class TechTreeGenerator
 
         int id = 0;
 
-        for (int y = 0; y < 5; y++)
+        for (int y = 0; y < 7; y++)
         {
-            for (int x = 0; x < 5; x++)
+            for (int x = 0; x < 3; x++)
             {
                 TechNodeData node = ScriptableObject.CreateInstance<TechNodeData>();
 

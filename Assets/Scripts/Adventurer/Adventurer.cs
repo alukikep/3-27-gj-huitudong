@@ -36,8 +36,9 @@ public class Adventurer : MonoBehaviour
     private bool isTired;
     private Sprite originalSprite;//保存原始精灵图片
     private string lastAnimationName;//拖拽前播放的动画名字
-    [SerializeField] private TMP_Text coinsUIText;
-    [SerializeField] private TMP_Text timerUIText;
+    public System.Action<float> OnTimerChanged;
+    public System.Action<float> OnCoinGenerated;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,10 +90,7 @@ public class Adventurer : MonoBehaviour
             GetCoin();
             workTimer = currentTime;
         }
-
-        UpdateUI();
-
-
+        OnTimerChanged?.Invoke(workTimer);
     }
 
 
@@ -240,6 +238,7 @@ public class Adventurer : MonoBehaviour
             {
                 transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InQuad);
             });
+        OnCoinGenerated?.Invoke(coins);
     }
 
     private void ShowCoinText(float coins)
@@ -310,17 +309,7 @@ public class Adventurer : MonoBehaviour
 
         //设置对应区域的数值
     }
-
-    private void UpdateUI()
-    {
-        // 显示金币（保留整数）
-        if (coinsUIText != null)
-            coinsUIText.text = $"Coins: {DataManager.Instance.coinCount:F0}";
-
-        // 显示计时器
-        if (timerUIText != null)
-            timerUIText.text = $"Time: {Mathf.Max(workTimer, 0):F1}s";
-    }
+    
 
     private IEnumerator WorkerDieAnim()
     {

@@ -15,5 +15,5 @@ MonoBehaviour:
   id: 3
   costGold: 100
   costTech: 10
-  position: {x: 3, y: 0}
+  position: {x: 0, y: 1}
   unlockedByDefault: 0

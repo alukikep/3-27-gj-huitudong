@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class TechTreeManager : MonoBehaviour
 {
-    public int width = 5;
-    public int height = 5;
+    public int width = 3;
+    public int height = 7;
 
     public TechNodeData[] allNodes;    // 25 个节点
     public TechNodeUI[] nodeUIs;       // 对应 UI，长度必须 = allNodes.Length
