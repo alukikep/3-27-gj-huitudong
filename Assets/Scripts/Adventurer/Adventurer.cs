@@ -12,35 +12,40 @@ public enum adventurerState { ISDRAGGING, DEFEAT, REST, WORKEASY, WORK, WORKHARD
 
 public class Adventurer : MonoBehaviour
 {
-
+    [SerializeField] protected string adventurerName;
     [Header("组件")]
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Image healthBar;
-    [SerializeField] private string workAnim;
-    [SerializeField] private string tiredAnim;
-    [SerializeField] private string dieAnim;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected Image healthBar;
+    [SerializeField] protected string workAnim;
+    [SerializeField] protected string tiredAnim;
+    [SerializeField] protected string dieAnim;
     public Dictionary<string, string> stateToAnim = new();
 
-    private Animator animator;
+    protected Animator animator;
     public float currentEfficiency;//获取金币的数量
     public float currentTime;//获取金币的时间间隔
     public float currentDamage;//获取伤害用于扣玩家生命值
     public float maxHealth = 100;
     public float currentHealth;//生命值，跌到0会"罢工"一段时间
-    public float buildAddEffeciency = 1;//建筑增加的金币数
-    public float buildSubtractTime = 1;//建筑减少的时间间隔
-    [SerializeField] private adventurerState currentState;
-    [SerializeField] private TMP_Text coinsTextPrefab;
-    [SerializeField] private Sprite draggingSprite;
-    private float workTimer;//计时器
-    private bool isTired;
-    private Sprite originalSprite;//保存原始精灵图片
-    private string lastAnimationName;//拖拽前播放的动画名字
+    [SerializeField] protected adventurerState currentState;
+    [SerializeField] protected TMP_Text coinsTextPrefab;
+    [SerializeField] protected Sprite draggingSprite;
+    protected float workTimer;//计时器
+    protected bool isTired;
+    protected Sprite originalSprite;//保存原始精灵图片
+    protected string lastAnimationName;//拖拽前播放的动画名字
+    protected Vector3 originalPosition;//保存原始位置，用于区域满时返回
     public System.Action<float> OnTimerChanged;
     public System.Action<float> OnCoinGenerated;
 
+    // ========== 区域计数相关 ==========
+    // 当前所在的区域索引（1=休息区, 2=轻松区, 3=普通区, 4=困难区）
+    protected int currentAreaIndex = 1;
+    // 拖拽前的区域索引，用于拖拽结束时更新计数
+    protected int dragStartAreaIndex = 1;
+
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         currentHealth = maxHealth;
         healthBar.color = Color.green;
@@ -48,12 +53,47 @@ public class Adventurer : MonoBehaviour
         stateToAnim["work"] = workAnim;
         stateToAnim["tired"] = tiredAnim;
         stateToAnim["die"] = dieAnim;
+
+        // 检查当前所在区域
+        DetectCurrentArea();
+        UpdateAreaEffect();
+        
+        // 初始放置时，增加当前区域计数（休息区）
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.IncrementAreaCount(currentAreaIndex);
+            Debug.Log($"Adventurer初始放置: 区域{currentAreaIndex}, 初始计数+1");
+            
+            // 怪物类型计数
+            IncrementMonsterTypeCount();
+        }
     }
 
+    protected virtual void OnEnable()
+    {
+        EventManager.AddListener("AreaCheck", CheckAreaCallback);
+    }
 
+    protected virtual void OnDisable()
+    {
+        EventManager.RemoveListener("AreaCheck", CheckAreaCallback);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (DataManager.Instance != null)
+        {
+            // 减少区域计数
+            DataManager.Instance.DecrementAreaCount(currentAreaIndex);
+            Debug.Log($"Adventurer销毁: 区域{currentAreaIndex}, 计数-1");
+            
+            // 怪物类型计数减少
+            DecrementMonsterTypeCount();
+        }
+    }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //拖拽时时间暂停
         if (currentState != adventurerState.ISDRAGGING)
@@ -63,6 +103,7 @@ public class Adventurer : MonoBehaviour
         }
 
         UpdateHealthBar();
+        
         //罢工逻辑
         if (currentHealth < 0 && isTired == false)
         {
@@ -70,41 +111,42 @@ public class Adventurer : MonoBehaviour
             isTired = true;
             animator.Play(stateToAnim["tired"]);
             currentDamage = -10;
-            //设置回血速度
             healthBar.color = Color.red;
         }
         else if (currentHealth < 0 && isTired == true)
         {
             StartCoroutine(WorkerDieAnim());
         }
+        
         //从罢工中恢复的逻辑
         if (currentHealth >= maxHealth && currentState == adventurerState.DEFEAT)
         {
             currentState = adventurerState.REST;
-            CheckArea();
+            DetectCurrentArea();
+            UpdateAreaEffect();
             healthBar.color = Color.green;
         }
+        
         //获取金币逻辑
-        if (workTimer < 0 && currentState != adventurerState.DEFEAT && currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
+        if (workTimer < 0 && currentState != adventurerState.DEFEAT && 
+            currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
         {
             GetCoin();
             workTimer = currentTime;
         }
-        OnTimerChanged?.Invoke(workTimer);
     }
 
-
-    private void UpdateHealthBar()
+    protected void UpdateHealthBar()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
     }
 
-    private void UpdateCurrentEffeciency()
+    protected void UpdateCurrentEffeciency()
     {
-
+        // 后续实现
     }
 
-    void OnMouseEnter()
+    protected virtual void OnMouseEnter()
     {
         if (currentState != adventurerState.ISDRAGGING)
         {
@@ -112,14 +154,17 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    void OnMouseDrag()
+    protected virtual void OnMouseDrag()
     {
         if (currentState == adventurerState.DEFEAT) return;
-        // 首次进入拖拽时保存状态和动画名
+        
+        // 首次进入拖拽时保存状态
         if (currentState != adventurerState.ISDRAGGING)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            originalSprite = sr.sprite; // 保存原始精灵
+            originalSprite = sr.sprite;
+            originalPosition = transform.position;
+            dragStartAreaIndex = currentAreaIndex; // 保存拖拽前的区域
 
             // 获取当前播放的动画名
             if (animator != null)
@@ -128,7 +173,7 @@ public class Adventurer : MonoBehaviour
                 lastAnimationName = animator.GetLayerName(0) + "." + stateInfo.shortNameHash;
             }
 
-            animator.enabled = false; // 禁用Animator
+            animator.enabled = false;
         }
 
         // 设置拖拽图片
@@ -137,10 +182,8 @@ public class Adventurer : MonoBehaviour
 
         // 将鼠标屏幕坐标转换为世界坐标
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -Camera.main.transform.position.z; // 设置Z轴为相机到物体的距离
+        mousePosition.z = -Camera.main.transform.position.z;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        // 更新物体位置
         transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
         gameObject.transform.DOScale(Vector3.one * 1.2f, 0.15f);
 
@@ -148,28 +191,23 @@ public class Adventurer : MonoBehaviour
         currentState = adventurerState.ISDRAGGING;
     }
 
-    void OnMouseUp()
+    protected virtual void OnMouseUp()
     {
         if (currentState == adventurerState.ISDRAGGING)
         {
             gameObject.transform.DOScale(Vector3.one, 0.15f);
-            currentState = adventurerState.REST;
-
+            
             // 恢复动画器
             animator.enabled = true;
-
-            // 恢复原始精灵图片
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.sprite = originalSprite;
-
-            // 用拖拽前存储的动画名播放动画
             if (!string.IsNullOrEmpty(lastAnimationName))
             {
                 animator.Play(lastAnimationName);
             }
 
-            // 拖拽结束时检查区域
-            CheckArea();
+            // 拖拽结束时检查区域并处理移动
+            HandlePlacementAfterDrag();
         }
         else
         {
@@ -177,115 +215,154 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    void OnMouseExit()
+    protected virtual void OnMouseExit()
     {
         gameObject.transform.DOScale(Vector3.one, 0.15f);
     }
 
-    private void CheckArea()
+    /// <summary>
+    /// 检测当前所在的区域
+    /// </summary>
+    protected void DetectCurrentArea()
     {
         int layerMask = LayerMask.GetMask("EasyArea", "NormalArea", "HardArea", "RestArea");
-        // 使用 Physics2D.OverlapPoint 检测当前位置有什么碰撞体
         Collider2D collider = Physics2D.OverlapPoint(transform.position, layerMask);
 
         if (collider != null && currentState != adventurerState.DEFEAT)
         {
-            // 获取碰撞体所在图层
             string layerName = LayerMask.LayerToName(collider.gameObject.layer);
-
-            // 根据图层名称设置冒险者状态
+            
             switch (layerName)
             {
                 case "EasyArea":
                     currentState = adventurerState.WORKEASY;
+                    currentAreaIndex = 2;
                     break;
                 case "NormalArea":
                     currentState = adventurerState.WORK;
+                    currentAreaIndex = 3;
                     break;
                 case "HardArea":
                     currentState = adventurerState.WORKHARD;
+                    currentAreaIndex = 4;
                     break;
                 case "RestArea":
                     currentState = adventurerState.REST;
+                    currentAreaIndex = 1;
                     break;
             }
-            SetAreaEffect();
-            Debug.Log($"冒险者进入区域: {layerName}, 状态: {currentState}, 效率: {currentEfficiency}, 间隔: {currentTime}");
+        }
+        else if (currentState != adventurerState.DEFEAT)
+        {
+            currentState = adventurerState.REST;
+            currentAreaIndex = 1;
+        }
+    }
+
+    /// <summary>
+    /// 拖拽结束后处理放置逻辑
+    /// </summary>
+    protected virtual void HandlePlacementAfterDrag()
+    {
+        int oldArea = dragStartAreaIndex;
+        int targetArea = 1; // 默认休息区
+        bool movedToRestArea = false;
+        
+        // 检测放置位置
+        int layerMask = LayerMask.GetMask("EasyArea", "NormalArea", "HardArea", "RestArea");
+        Collider2D collider = Physics2D.OverlapPoint(transform.position, layerMask);
+
+        if (collider != null)
+        {
+            string layerName = LayerMask.LayerToName(collider.gameObject.layer);
+            currentState = adventurerState.REST;
+            
+            switch (layerName)
+            {
+                case "EasyArea":
+                    targetArea = 2;
+                    currentState = adventurerState.WORKEASY;
+                    break;
+                case "NormalArea":
+                    targetArea = 3;
+                    currentState = adventurerState.WORK;
+                    break;
+                case "HardArea":
+                    targetArea = 4;
+                    currentState = adventurerState.WORKHARD;
+                    break;
+                case "RestArea":
+                    targetArea = 1;
+                    currentState = adventurerState.REST;
+                    break;
+            }
+            
+            // 检查目标区域是否已满（休息区永远可以放置）
+            if (targetArea != 1 && DataManager.Instance != null && 
+                !DataManager.Instance.CanPlaceInArea(targetArea))
+            {
+                // 区域已满，移动到休息区
+                Debug.Log($"区域{targetArea}已满，移动到休息区");
+                if (DataManager.Instance.restAreaPosition != null)
+                {
+                    transform.position = DataManager.Instance.restAreaPosition.position;
+                }
+                targetArea = 1;
+                currentState = adventurerState.REST;
+                movedToRestArea = true;
+            }
         }
         else
         {
-            // 没有检测到碰撞体，设置为休息状态
+            // 不在任何区域，移动到休息区
+            if (DataManager.Instance != null && DataManager.Instance.restAreaPosition != null)
+            {
+                transform.position = DataManager.Instance.restAreaPosition.position;
+            }
+            targetArea = 1;
             currentState = adventurerState.REST;
-            SetAreaEffect();
-            Debug.Log("冒险者不在任何区域，算作休息区，休息中");
+            movedToRestArea = true;
         }
-    }
 
-
-    private void GetCoin()
-    {
-        //计算逻辑后续还需要统筹修改
-        float coins = currentEfficiency * buildAddEffeciency;
-        DataManager.Instance.ChangeCoins(coins);
-
-        // 生成金币特效文本
-        ShowCoinText(coins);
-
-        // 获得金币时的膨大缩小动画效果
-        transform.DOKill();
-        transform.DOScale(Vector3.one * 1.3f, 0.1f).SetEase(Ease.OutQuad)
-            .OnComplete(() =>
-            {
-                transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InQuad);
-            });
-        OnCoinGenerated?.Invoke(coins);
-    }
-
-    private void ShowCoinText(float coins)
-    {
-        if (coinsTextPrefab == null || SimplePool.Instance == null) return;
-
-        // 从对象池生成金币文本
-        GameObject coinTextObj = SimplePool.Instance.Spawn(coinsTextPrefab.gameObject, transform.position, Quaternion.identity);
-        TMP_Text coinText = coinTextObj.GetComponent<TMP_Text>();
-
-        if (coinText != null)
+        // 更新currentAreaIndex
+        currentAreaIndex = targetArea;
+        
+        // 更新区域计数：先减少原区域，再增加新区域
+        if (oldArea != currentAreaIndex)
         {
-            coinText.text = $"+{coins:F0}";
+            DataManager.Instance.DecrementAreaCount(oldArea);
+            DataManager.Instance.IncrementAreaCount(currentAreaIndex);
+            Debug.Log($"区域计数更新: {oldArea} -> {currentAreaIndex}");
+        }
+        
+        // 更新区域效果
+        UpdateAreaEffect();
+    }
 
-            // 【关键】重置透明度！避免从对象池取出时是透明的
-            Color textColor = coinText.color;
-            textColor.a = 1f;
-            coinText.color = textColor;
-
-            // 使用 DOTween 实现跳动上升动画
-            coinTextObj.transform.DOKill();
-
-            // 设置初始位置和缩放
-            coinTextObj.transform.position = transform.position;
-            coinTextObj.transform.localScale = Vector3.one * 0.5f;
-
-            // 创建跳动+上升+淡出动画序列
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(coinTextObj.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack)); // 弹跳放大
-            sequence.Append(coinTextObj.transform.DOMoveY(transform.position.y + 1.5f, 0.8f).SetEase(Ease.OutQuad)); // 上升
-            sequence.Join(coinText.DOFade(0f, 0.8f).SetEase(Ease.OutQuad)); // 淡出
-            sequence.OnComplete(() =>
-            {
-                // 动画完成后回收对象
-                SimplePool.Instance.Despawn(coinTextObj);
-            });
-
-            sequence.Play();
+    /// <summary>
+    /// 移动时更新区域计数
+    /// </summary>
+    protected void UpdateAreaCountOnMove(int fromArea)
+    {
+        if (DataManager.Instance == null) return;
+        
+        if (fromArea != currentAreaIndex)
+        {
+            DataManager.Instance.DecrementAreaCount(fromArea);
+            DataManager.Instance.IncrementAreaCount(currentAreaIndex);
+            Debug.Log($"区域计数更新: {fromArea} -> {currentAreaIndex}");
         }
     }
 
-    private void SetAreaEffect()
+    /// <summary>
+    /// 更新区域效果
+    /// </summary>
+    protected void UpdateAreaEffect()
     {
-        //后续检查是否需要添加处理
+        if (DataManager.Instance == null) return;
+        
         if (currentState == adventurerState.REST)
         {
-            //时间间隔，伤害;
             currentTime = DataManager.Instance.area1Time;
             currentDamage = DataManager.Instance.area1Damage;
         }
@@ -304,32 +381,119 @@ public class Adventurer : MonoBehaviour
             currentTime = DataManager.Instance.area4Time;
             currentDamage = DataManager.Instance.area4Damage;
         }
+        
         currentEfficiency = DataManager.Instance.adventurerEfficiency;
         workTimer = currentTime;
-
-        //设置对应区域的数值
     }
-    
 
-    private IEnumerator WorkerDieAnim()
+    /// <summary>
+    /// EventManager的回调，用于外部触发区域检查
+    /// </summary>
+    protected void CheckAreaCallback()
     {
-        // 确保Animator启用
+        DetectCurrentArea();
+        UpdateAreaEffect();
+    }
+
+    /// <summary>
+    /// 增加怪物类型计数
+    /// </summary>
+    protected void IncrementMonsterTypeCount()
+    {
+        if (DataManager.Instance == null) return;
+        
+        if (adventurerName == "goblin")
+        {
+            DataManager.Instance.goblinCurrentCount++;
+        }
+        else if (adventurerName == "slime")
+        {
+            DataManager.Instance.slimeCurrentCount++;
+        }
+        else if (adventurerName == "skeleton")
+        {
+            DataManager.Instance.skeletonCurrentCount++;
+        }
+    }
+
+    /// <summary>
+    /// 减少怪物类型计数
+    /// </summary>
+    protected void DecrementMonsterTypeCount()
+    {
+        if (DataManager.Instance == null) return;
+        
+        if (adventurerName == "goblin")
+        {
+            DataManager.Instance.goblinCurrentCount--;
+        }
+        else if (adventurerName == "slime")
+        {
+            DataManager.Instance.slimeCurrentCount--;
+        }
+        else if (adventurerName == "skeleton")
+        {
+            DataManager.Instance.skeletonCurrentCount--;
+        }
+    }
+
+    protected void GetCoin()
+    {
+        float coins = currentEfficiency;
+        DataManager.Instance.ChangeCoins(coins);
+        ShowCoinText(coins);
+
+        transform.DOKill();
+        transform.DOScale(Vector3.one * 1.3f, 0.1f).SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InQuad);
+            });
+        OnCoinGenerated?.Invoke(coins);
+    }
+
+    protected void ShowCoinText(float coins)
+    {
+        if (coinsTextPrefab == null || SimplePool.Instance == null) return;
+
+        GameObject coinTextObj = SimplePool.Instance.Spawn(coinsTextPrefab.gameObject, transform.position, Quaternion.identity);
+        TMP_Text coinText = coinTextObj.GetComponent<TMP_Text>();
+
+        if (coinText != null)
+        {
+            coinText.text = $"+{coins:F0}";
+            Color textColor = coinText.color;
+            textColor.a = 1f;
+            coinText.color = textColor;
+
+            coinTextObj.transform.DOKill();
+            coinTextObj.transform.position = transform.position;
+            coinTextObj.transform.localScale = Vector3.one * 0.5f;
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(coinTextObj.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack));
+            sequence.Append(coinTextObj.transform.DOMoveY(transform.position.y + 1.5f, 0.8f).SetEase(Ease.OutQuad));
+            sequence.Join(coinText.DOFade(0f, 0.8f).SetEase(Ease.OutQuad));
+            sequence.OnComplete(() => { SimplePool.Instance.Despawn(coinTextObj); });
+            sequence.Play();
+        }
+    }
+
+    protected IEnumerator WorkerDieAnim()
+    {
         if (animator != null)
         {
             animator.enabled = true;
         }
-        
-        // 1. 播放死亡动画
+
         if (animator != null && stateToAnim.ContainsKey("die"))
         {
             animator.Play(stateToAnim["die"]);
         }
 
-        // 2. 等待动画播放完成（假设死亡动画时长1秒，可根据实际情况调整）
         float animDuration = 1f;
         yield return new WaitForSeconds(animDuration);
 
-        // 3. 逐渐透明淡出
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
@@ -346,9 +510,6 @@ public class Adventurer : MonoBehaviour
             }
         }
 
-        // 4. 销毁游戏对象
         Destroy(gameObject);
     }
-
-
 }

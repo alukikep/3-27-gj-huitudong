@@ -59,7 +59,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        Time.timeScale = 1f;
         if (fadeCanvasGroup == null)
         {
             SetupFadeUI();
@@ -108,6 +107,5 @@ public class SceneLoader : MonoBehaviour
         fadeCanvasGroup.alpha = 0f;
         fadeCanvasGroup.blocksRaycasts = false;
     }
-    
 }
 

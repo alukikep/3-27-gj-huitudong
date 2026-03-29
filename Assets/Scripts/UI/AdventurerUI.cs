@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class AdventurerUI : MonoBehaviour
 {
-    [Header("绑定对象")]
-    [SerializeField] private Adventurer target;
+    public static AdventurerUI Instance { get; private set; }
 
     [Header("UI组件")]
     [SerializeField] private TMP_Text coinsText;
@@ -12,23 +11,23 @@ public class AdventurerUI : MonoBehaviour
     [SerializeField] private GameObject techTree;
     [SerializeField] private GameObject order;
     [SerializeField] private GameObject data;
-    
-    
 
-    private void Start()
+    private void Awake()
     {
-        if (target == null) return;
-
-        target.OnTimerChanged += UpdateTimer;
-        target.OnCoinGenerated += UpdateCoin;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    private void UpdateTimer(float time)
+    public void UpdateTimer(float time)
     {
         timerText.text = $"Time: {Mathf.Max(time,0):F1}s";
     }
 
-    private void UpdateCoin(float coin)
+    public void UpdateCoin(float coin)
     {
         coinsText.text = $"Coins: {DataManager.Instance.coinCount:F0}";
     }

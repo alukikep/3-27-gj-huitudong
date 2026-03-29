@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3f97848c729f84a8ae7caf7bd91f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adventurerName: 
   spriteRenderer: {fileID: 4967651560119278101}
   healthBar: {fileID: 7083714486482185047}
   workAnim: goblin_work
@@ -108,15 +109,13 @@ MonoBehaviour:
   currentEfficiency: 0
   currentTime: 0
   currentDamage: 0
-  maxHealth: 0
+  maxHealth: 100
   currentHealth: 0
-  buildAddEffeciency: 0
-  buildSubtractTime: 0
+  buildAddEffeciency: 1
+  buildSubtractTime: 1
   currentState: 1
   coinsTextPrefab: {fileID: 9031168173803230534, guid: 0a046d00da0f56e45bf7e0f1ebcbf82a, type: 3}
   draggingSprite: {fileID: 21300000, guid: cc593d8810be3a649bdf8204e665b9fd, type: 3}
-  coinsUIText: {fileID: 0}
-  timerUIText: {fileID: 0}
 --- !u!70 &3812220589528845654
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
