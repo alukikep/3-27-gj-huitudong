@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class TechNodeUI : MonoBehaviour
+public class TechNodeUI : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
 {
     public int id;
     public Button button;
     public Image icon;
 
     private TechTreeManager manager;
+    private TechNodeData data;
     private bool isUnlocked = false;
     private bool isAvailable = false;
 
@@ -15,6 +17,7 @@ public class TechNodeUI : MonoBehaviour
     {
         this.id = id;
         this.manager = manager;
+        this.data = manager.GetNodeData(id);
 
         isUnlocked = false;
         isAvailable = false;
@@ -60,5 +63,18 @@ public class TechNodeUI : MonoBehaviour
         {
             manager.TryUnlock(id);
         }
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        string content =
+            $"<b>消耗：</b>{data.costGold}金币 / {data.costTech}科技\n" +
+            $"{data.description}";
+
+        TooltipManager.Instance.Show(content);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipManager.Instance.Hide();
     }
 }

@@ -59,6 +59,7 @@ public class DataManager : Singleton<DataManager>
     void OnEnable()
     {
         EventManager.AddListener<int>("UnlockTechTree", TechTreeEffect);
+        
     }
 
     void OnDisable()
@@ -255,4 +256,81 @@ public class DataManager : Singleton<DataManager>
                 break;
         }
     }
+    public bool TryBuyMonster(MonsterType type, float cost)
+    {
+        // 1. 是否解锁
+        if (!IsMonsterUnlocked(type))
+        {
+            Debug.Log("未解锁该怪物");
+            return false;
+        }
+
+        // 2. 钱够不够
+        if (coinCount < cost)
+        {
+            Debug.Log("金币不足");
+            return false;
+        }
+
+        // 3. 是否超过数量限制
+        if (!CanSpawnMonster(type))
+        {
+            Debug.Log("数量已满");
+            return false;
+        }
+
+        // 4. 扣钱
+        ChangeCoins(-cost);
+
+        // 5. 增加数量
+        IncrementMonsterCount(type);
+
+        return true;
+    }
+    
+    private bool IsMonsterUnlocked(MonsterType type)
+    {
+        return type switch
+        {
+            MonsterType.Goblin => isGoblinUnlocked,
+            MonsterType.Slime => isSlimeUnlocked,
+            MonsterType.Troll => isTrollUnlocked,
+            MonsterType.Succubus => isSuccubusUnlocked,
+            MonsterType.Skeleton => isSkeletonUnlocked,
+            _ => false
+        };
+    }
+    
+    private bool CanSpawnMonster(MonsterType type)
+    {
+        return type switch
+        {
+            MonsterType.Goblin => goblinCurrentCount < goblinMaxCount,
+            MonsterType.Slime => slimeCurrentCount < slimeMaxCount,
+            MonsterType.Troll => trollCurrentCount < trollMaxCount,
+            MonsterType.Succubus => succubusCurrentCount < succubusMaxCount,
+            MonsterType.Skeleton => skeletonCurrentCount < skeletonMaxCount,
+            _ => false
+        };
+    }
+    
+    private void IncrementMonsterCount(MonsterType type)
+    {
+        switch (type)
+        {
+            case MonsterType.Goblin: goblinCurrentCount++; break;
+            case MonsterType.Slime: slimeCurrentCount++; break;
+            case MonsterType.Troll: trollCurrentCount++; break;
+            case MonsterType.Succubus: succubusCurrentCount++; break;
+            case MonsterType.Skeleton: skeletonCurrentCount++; break;
+        }
+    }
+}
+public enum MonsterType
+{
+    Goblin,
+    Slime,
+    Troll,
+    Succubus,
+    Skeleton
 }

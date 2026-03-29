@@ -10,4 +10,6 @@ public class TechNodeData : ScriptableObject
     public Vector2Int position; 
 
     public bool unlockedByDefault;
+    [TextArea]
+    public string description;
 }

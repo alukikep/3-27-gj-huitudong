@@ -128,4 +128,8 @@ public class TechTreeManager : MonoBehaviour
     {
         return new List<int>(unlockedNodes);
     }
+    public TechNodeData GetNodeData(int id)
+    {
+        return nodeDict.ContainsKey(id) ? nodeDict[id] : null;
+    }
 }
