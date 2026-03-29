@@ -17,3 +17,4 @@ MonoBehaviour:
   costTech: 10
   position: {x: 0, y: 3}
   unlockedByDefault: 0
+  description: "\u6D17\u8111\u5BA4\u6062\u590D\u901F\u5EA6+5%\uFF08\u52A0\u6CD5\uFF09\v\u3010\u7CBE\u795E\u5FEB\u5145\u3011\n"
