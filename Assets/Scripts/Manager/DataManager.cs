@@ -26,6 +26,7 @@ public class DataManager : Singleton<DataManager>
     public float adventurerEfficiency;//冒险者效率，可以设置为每隔一段时间获得的金币数
     public float coinCount;//当前拥有的金币数
     public float GameTime;
+    public float buyBonus = 1;
     [Header("怪物限制数数据")]
     public int goblinMaxCount;
     public int goblinCurrentCount;
@@ -255,6 +256,7 @@ public class DataManager : Singleton<DataManager>
                 break;
             case 14:
                 //购买怪物需要的金币减少
+                buyBonus = 0.8f;
                 break;
             case 15:
                 area2Time *= 0.95f;
@@ -298,7 +300,7 @@ public class DataManager : Singleton<DataManager>
         }
 
         // 2. 钱够不够
-        if (coinCount < cost)
+        if (coinCount < cost * buyBonus)
         {
             Debug.Log("金币不足");
             return false;
@@ -312,7 +314,7 @@ public class DataManager : Singleton<DataManager>
         }
 
         // 4. 扣钱
-        ChangeCoins(-cost);
+        ChangeCoins(-cost * buyBonus);
 
         // 5. 增加数量
         IncrementMonsterCount(type);
