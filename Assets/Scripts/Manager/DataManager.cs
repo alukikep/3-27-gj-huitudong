@@ -55,11 +55,15 @@ public class DataManager : Singleton<DataManager>
 
     [Header("休息区位置")]
     public Transform restAreaPosition;  // 休息区位置，拖动Transform赋值
+    public float castleMaxHealth = 1200; // 魔王城初始血量
+    public float castleHealth = 1200; // 魔王城血量 
+    public float castleDamage = 1;
+    public float targetCoinCount = 3000; // 胜利条件：达到3000金币
 
     void OnEnable()
     {
         EventManager.AddListener<int>("UnlockTechTree", TechTreeEffect);
-        
+
     }
 
     void OnDisable()
@@ -72,6 +76,12 @@ public class DataManager : Singleton<DataManager>
         GameTime += Time.deltaTime;
         AdventurerUI.Instance.UpdateTimer(GameTime);
         AdventurerUI.Instance.UpdateCoin(coinCount);
+        castleHealth -= Time.deltaTime * castleDamage; // 假设每秒减少5点血量，实际可以根据怪物数量和类型调整
+        if (castleHealth <= 0)
+        {
+            GameLose();
+        }
+        GameWin();
     }
 
     public void AdventurerUpgrade(float amount)//可以升级时调用也可以解锁科技树提高工人效率时调用
@@ -97,6 +107,16 @@ public class DataManager : Singleton<DataManager>
     /// <returns>是否可以放置</returns>
     public bool CanPlaceInArea(int areaIndex)
     {
+        // 对于区域3和4，需要先检查是否解锁
+        if (areaIndex == 3 && !isArea3Unlocked)
+        {
+            return false;
+        }
+        if (areaIndex == 4 && !isArea4Unlocked)
+        {
+            return false;
+        }
+
         int currentCount = 0;
         int maxCount = 0;
 
@@ -177,7 +197,8 @@ public class DataManager : Singleton<DataManager>
                 area4Time *= 0.8f;
                 break;
             case 1:
-                //增加魔王城血条上限？？？
+                castleMaxHealth += 300;
+                castleHealth += 300;
                 break;
             case 2:
                 area4MaxCount += 2;
@@ -185,6 +206,7 @@ public class DataManager : Singleton<DataManager>
             case 3:
                 //解锁巨魔
                 isTrollUnlocked = true;
+                trollMaxCount += 1;
                 break;
             case 4:
                 //解锁area4
@@ -201,17 +223,17 @@ public class DataManager : Singleton<DataManager>
                 area2Time *= 0.8f;
                 break;
             case 8:
-                goblinMaxCount++;
+                goblinMaxCount += 2;
                 trollMaxCount++;
                 skeletonMaxCount++;
                 succubusMaxCount++;
-                slimeMaxCount++;
+                slimeMaxCount += 2;
                 break;
             case 9:
                 area1Damage *= 1.05f;
                 break;
             case 10:
-                //无逻辑
+                //初始解锁哥布林
                 break;
             case 11:
                 //解锁熔炉
@@ -221,6 +243,7 @@ public class DataManager : Singleton<DataManager>
             case 12:
                 //解锁史莱姆
                 isSlimeUnlocked = true;
+                slimeMaxCount += 4;
                 break;
             case 13:
                 area2MaxCount += 2;
@@ -241,10 +264,13 @@ public class DataManager : Singleton<DataManager>
             case 17:
                 //解锁魅魔
                 isSuccubusUnlocked = true;
+                succubusMaxCount += 1;
                 break;
             case 18:
                 //解锁骷髅
                 isSkeletonUnlocked = true;
+                skeletonMaxCount += 1;
+
                 break;
             case 19:
                 area2Damage *= 0.9f;
@@ -253,6 +279,7 @@ public class DataManager : Singleton<DataManager>
                 break;
             case 20:
                 //降低魔王城血条减少速度
+                castleDamage *= 0.7f;
                 break;
         }
     }
@@ -287,7 +314,7 @@ public class DataManager : Singleton<DataManager>
 
         return true;
     }
-    
+
     private bool IsMonsterUnlocked(MonsterType type)
     {
         return type switch
@@ -300,7 +327,7 @@ public class DataManager : Singleton<DataManager>
             _ => false
         };
     }
-    
+
     private bool CanSpawnMonster(MonsterType type)
     {
         return type switch
@@ -313,7 +340,7 @@ public class DataManager : Singleton<DataManager>
             _ => false
         };
     }
-    
+
     private void IncrementMonsterCount(MonsterType type)
     {
         switch (type)
@@ -324,6 +351,23 @@ public class DataManager : Singleton<DataManager>
             case MonsterType.Succubus: succubusCurrentCount++; break;
             case MonsterType.Skeleton: skeletonCurrentCount++; break;
         }
+    }
+
+    private void GameWin()
+    {
+        if (coinCount >= targetCoinCount) // 假设3000金币为胜利条件
+        {
+            Debug.Log("游戏胜利！");
+            // 这里可以添加胜利界面或其他逻辑
+        }
+    }
+
+    private void GameLose()
+    {
+
+        // 这里可以添加失败条件和逻辑，例如冒险者死亡或时间耗尽
+        Debug.Log("游戏失败！");
+        // 这里可以添加失败界面或其他逻辑
     }
 }
 public enum MonsterType

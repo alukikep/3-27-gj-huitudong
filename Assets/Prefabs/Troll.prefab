@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6221421794375489131}
   - component: {fileID: 2558289403689339060}
   - component: {fileID: 7118521143959203839}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 82874583271272095}
   - component: {fileID: 3235739004976637018}
   - component: {fileID: 6536288714872686615}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Troll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 4559869347591429443}
   - component: {fileID: 2099723073677252352}
   - component: {fileID: 4446950954760681381}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: healthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

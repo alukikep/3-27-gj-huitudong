@@ -44,9 +44,16 @@ public class Adventurer : MonoBehaviour
     // 拖拽前的区域索引，用于拖拽结束时更新计数
     protected int dragStartAreaIndex = 1;
 
+    // 防止重复初始化的标记
+    protected bool hasInitialized = false;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        // 防止重复初始化（解决使用对象池或继承类重复调用的问题）
+        if (hasInitialized) return;
+        hasInitialized = true;
+
         currentHealth = maxHealth;
         healthBar.color = Color.green;
         animator = this.GetComponent<Animator>();
@@ -59,13 +66,11 @@ public class Adventurer : MonoBehaviour
         UpdateAreaEffect();
         
         // 初始放置时，增加当前区域计数（休息区）
+        // 注意：怪物类型容量在 DataManager.TryBuyMonster 中已经增加，这里不再重复
         if (DataManager.Instance != null)
         {
             DataManager.Instance.IncrementAreaCount(currentAreaIndex);
-            Debug.Log($"Adventurer初始放置: 区域{currentAreaIndex}, 初始计数+1");
-            
-            // 怪物类型计数
-            IncrementMonsterTypeCount();
+            Debug.Log($"Adventurer初始放置: 区域{currentAreaIndex}, 区域容量+1");
         }
     }
 
@@ -85,10 +90,11 @@ public class Adventurer : MonoBehaviour
         {
             // 减少区域计数
             DataManager.Instance.DecrementAreaCount(currentAreaIndex);
-            Debug.Log($"Adventurer销毁: 区域{currentAreaIndex}, 计数-1");
+            Debug.Log($"Adventurer销毁: 区域{currentAreaIndex}, 区域容量-1");
             
             // 怪物类型计数减少
             DecrementMonsterTypeCount();
+            Debug.Log($"Adventurer销毁: 怪物类型容量-1, 当前: {DataManager.Instance.goblinCurrentCount + DataManager.Instance.slimeCurrentCount + DataManager.Instance.skeletonCurrentCount}");
         }
     }
 
@@ -146,7 +152,10 @@ public class Adventurer : MonoBehaviour
         // 后续实现
     }
 
-    protected virtual void OnMouseEnter()
+    /// <summary>
+    /// 事件管理器调用的鼠标进入方法
+    /// </summary>
+    public virtual void OnEventMouseEnter()
     {
         if (currentState != adventurerState.ISDRAGGING)
         {
@@ -154,49 +163,65 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    protected virtual void OnMouseDrag()
+    /// <summary>
+    /// 事件管理器调用的鼠标退出方法
+    /// </summary>
+    public virtual void OnEventMouseExit()
+    {
+        gameObject.transform.DOScale(Vector3.one, 0.15f);
+    }
+
+    /// <summary>
+    /// 事件管理器调用的鼠标按下方法（开始拖拽）
+    /// </summary>
+    public void OnEventMouseDown()
     {
         if (currentState == adventurerState.DEFEAT) return;
-        
-        // 首次进入拖拽时保存状态
-        if (currentState != adventurerState.ISDRAGGING)
+
+        // 保存初始状态
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        originalSprite = sr.sprite;
+        originalPosition = transform.position;
+        dragStartAreaIndex = currentAreaIndex; // 保存拖拽前的区域
+
+        // 获取当前播放的动画名
+        if (animator != null)
         {
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            originalSprite = sr.sprite;
-            originalPosition = transform.position;
-            dragStartAreaIndex = currentAreaIndex; // 保存拖拽前的区域
-
-            // 获取当前播放的动画名
-            if (animator != null)
-            {
-                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-                lastAnimationName = animator.GetLayerName(0) + "." + stateInfo.shortNameHash;
-            }
-
-            animator.enabled = false;
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            lastAnimationName = animator.GetLayerName(0) + "." + stateInfo.shortNameHash;
         }
+
+        animator.enabled = false;
 
         // 设置拖拽图片
         SpriteRenderer sr2 = GetComponent<SpriteRenderer>();
         sr2.sprite = draggingSprite;
 
-        // 将鼠标屏幕坐标转换为世界坐标
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -Camera.main.transform.position.z;
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
         gameObject.transform.DOScale(Vector3.one * 1.2f, 0.15f);
 
         // 设置状态为拖拽中
         currentState = adventurerState.ISDRAGGING;
     }
 
-    protected virtual void OnMouseUp()
+    /// <summary>
+    /// 事件管理器调用的鼠标拖拽方法（接收世界坐标）
+    /// </summary>
+    public void OnEventMouseDrag(Vector3 worldPosition)
+    {
+        if (currentState != adventurerState.ISDRAGGING) return;
+
+        transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
+    }
+
+    /// <summary>
+    /// 事件管理器调用的鼠标释放方法（结束拖拽）
+    /// </summary>
+    public virtual void OnEventMouseUp()
     {
         if (currentState == adventurerState.ISDRAGGING)
         {
             gameObject.transform.DOScale(Vector3.one, 0.15f);
-            
+
             // 恢复动画器
             animator.enabled = true;
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -215,10 +240,13 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    protected virtual void OnMouseExit()
-    {
-        gameObject.transform.DOScale(Vector3.one, 0.15f);
-    }
+    // ========== 保留原有的 MonoBehaviour 事件用于兼容性（可选择禁用）==========
+    // 如果使用事件管理器，可以注释掉以下方法
+    
+    // protected virtual void OnMouseEnter() { OnEventMouseEnter(); }
+    // protected virtual void OnMouseDrag() { /* 使用事件管理器，禁用内置 */ }
+    // protected virtual void OnMouseUp() { /* 使用事件管理器，禁用内置 */ }
+    // protected virtual void OnMouseExit() { OnEventMouseExit(); }
 
     /// <summary>
     /// 检测当前所在的区域
@@ -510,6 +538,7 @@ public class Adventurer : MonoBehaviour
             }
         }
 
+        // 容量释放在 OnDestroy 中处理，这里只负责销毁
         Destroy(gameObject);
     }
 }

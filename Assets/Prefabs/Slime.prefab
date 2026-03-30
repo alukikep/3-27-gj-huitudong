@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8560291125314516417}
   - component: {fileID: 9041660149175563601}
   - component: {fileID: 3398465592565353642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: healthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3994561743961621104}
   - component: {fileID: 7422798894765436155}
   - component: {fileID: 3082337990484528184}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 4510227403339288537}
   - component: {fileID: 5055232047114631536}
   - component: {fileID: 6573594440331673193}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4510227403339288537
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3f97848c729f84a8ae7caf7bd91f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adventurerName: 
+  adventurerName: slime
   spriteRenderer: {fileID: 4750157278761882564}
   healthBar: {fileID: 3398465592565353642}
   workAnim: slime_work

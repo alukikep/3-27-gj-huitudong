@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3910298782866298717}
   - component: {fileID: 1130653633707475602}
   - component: {fileID: 6778114991492816524}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4375819868125522009}
   - component: {fileID: 2969464114869417731}
   - component: {fileID: 4620314530805476076}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: healthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7725503397218767552}
   - component: {fileID: 2445194017540819109}
   - component: {fileID: 2955667301786599026}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3f97848c729f84a8ae7caf7bd91f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adventurerName: 
+  adventurerName: skeleton
   spriteRenderer: {fileID: 5957898763855626641}
   healthBar: {fileID: 4620314530805476076}
   workAnim: skeleton_work

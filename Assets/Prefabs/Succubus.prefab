@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1099613612048555346}
   - component: {fileID: 5020460294820133859}
   - component: {fileID: 5456978761507454866}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Succubus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 3966894668114169268}
   - component: {fileID: 5605899839035857979}
   - component: {fileID: 1592137763525884934}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 4855658472571180545}
   - component: {fileID: 7371986443809334540}
   - component: {fileID: 7884314589451435370}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: healthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

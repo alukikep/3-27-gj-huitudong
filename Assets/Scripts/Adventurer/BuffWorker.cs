@@ -16,6 +16,10 @@ public class BuffWorker : Adventurer
 
     protected override void Start()
     {
+        // 防止重复初始化（解决使用对象池或继承类重复调用的问题）
+        if (hasInitialized) return;
+        hasInitialized = true;
+
         currentHealth = maxHealth;
         healthBar.color = Color.green;
         animator = this.GetComponent<Animator>();
@@ -28,13 +32,11 @@ public class BuffWorker : Adventurer
         UpdateAreaEffect();
 
         // 初始放置时，增加当前区域计数
+        // 注意：怪物类型容量在 DataManager.TryBuyMonster 中已经增加，这里不再重复
         if (DataManager.Instance != null)
         {
             DataManager.Instance.IncrementAreaCount(currentAreaIndex);
-            Debug.Log($"BuffWorker初始放置: 区域{currentAreaIndex}, 初始计数+1");
-
-            // 怪物类型计数（BuffWorker特有的）
-            IncrementBuffMonsterTypeCount();
+            Debug.Log($"BuffWorker初始放置: 区域{currentAreaIndex}, 区域容量+1");
 
             // 如果在非休息区，应用初始buff
             ApplyBuffForCurrentArea();
@@ -62,10 +64,11 @@ public class BuffWorker : Adventurer
 
             // 减少区域计数
             DataManager.Instance.DecrementAreaCount(currentAreaIndex);
-            Debug.Log($"BuffWorker销毁: 区域{currentAreaIndex}, 计数-1");
-
+            Debug.Log($"BuffWorker销毁: 区域{currentAreaIndex}, 区域容量-1");
+            
             // 怪物类型计数减少
             DecrementBuffMonsterTypeCount();
+            Debug.Log($"BuffWorker销毁: 怪物类型容量-1, 当前: {DataManager.Instance.trollCurrentCount + DataManager.Instance.succubusCurrentCount}");
         }
     }
 
@@ -74,22 +77,19 @@ public class BuffWorker : Adventurer
         base.Update();
     }
 
-    protected override void OnMouseEnter()
+    // ========== 使用事件管理器时重写公共方法 ==========
+
+    public override void OnEventMouseEnter()
     {
-        base.OnMouseEnter();
+        base.OnEventMouseEnter();
     }
 
-    protected override void OnMouseExit()
+    public override void OnEventMouseExit()
     {
-        gameObject.transform.DOScale(Vector3.one, 0.15f);
+        base.OnEventMouseExit();
     }
 
-    protected override void OnMouseDrag()
-    {
-        base.OnMouseDrag();
-    }
-
-    protected override void OnMouseUp()
+    public override void OnEventMouseUp()
     {
         if (currentState == adventurerState.ISDRAGGING)
         {
@@ -320,7 +320,7 @@ public class BuffWorker : Adventurer
         }
     }
 
-    private IEnumerator WorkerDieAnim()
+    private new IEnumerator WorkerDieAnim()
     {
         if (animator != null)
         {
@@ -351,6 +351,7 @@ public class BuffWorker : Adventurer
             }
         }
 
+        // 容量释放在 OnDestroy 中处理，这里只负责销毁
         Destroy(gameObject);
     }
 }
