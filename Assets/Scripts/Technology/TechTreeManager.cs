@@ -13,11 +13,12 @@ public class TechTreeManager : MonoBehaviour
     private Dictionary<Vector2Int, int> grid = new();
     private HashSet<int> unlockedNodes = new();
 
-    public int playerGold = 1000;
+    public float  playerGold ;
     /*public int playerTech = 100;*/
 
     void Start()
     {
+        playerGold = DataManager.Instance.coinCount;
         Init();
     }
 

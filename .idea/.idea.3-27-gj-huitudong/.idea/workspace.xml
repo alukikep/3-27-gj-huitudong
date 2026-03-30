@@ -6,13 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d4555312-9084-4b8c-a10d-e9b4c54e0c5d" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3-27-gj-huitudong/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3-27-gj-huitudong/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resource/UI/时间条装饰.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/UI/时间条装饰.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resource/UI/魔王城血条.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/UI/魔王城血条.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resource/字体/字小魂温暖童稚体(商用需授权) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/字体/字小魂温暖童稚体(商用需授权) SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StartScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StartScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/DataManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/DataManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Technology/TechNodeUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Technology/TechNodeUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Technology/TechTreeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Technology/TechTreeManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/AdventurerUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/AdventurerUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/BuyMonsterButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/BuyMonsterButton.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +28,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/TechTreeGenerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Manager/QuitGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Manager/TooltipManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Manager/TutorialManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Technology/TechNodeUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Technology/TechTreeManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -120,7 +120,7 @@
       <workItem from="1774713843259" duration="2757000" />
       <workItem from="1774785598247" duration="1561000" />
       <workItem from="1774800528137" duration="4175000" />
-      <workItem from="1774853830351" duration="7217000" />
+      <workItem from="1774853830351" duration="11857000" />
     </task>
     <servers />
   </component>

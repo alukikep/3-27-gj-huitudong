@@ -64,6 +64,14 @@ public class DataManager : Singleton<DataManager>
     public float castleDamage = 1;
     public float targetCoinCount = 3000; // 胜利条件：达到3000金币
 
+    public void StartGame()
+    {
+        // 初始化游戏数据
+        castleHealth = 1200;
+        coinCount = 0;
+        castleHealth = castleMaxHealth;
+    }
+    
     void OnEnable()
     {
         EventManager.AddListener<int>("UnlockTechTree", TechTreeEffect);
@@ -366,6 +374,7 @@ public class DataManager : Singleton<DataManager>
         {
             Debug.Log("游戏胜利！");
             // 这里可以添加胜利界面或其他逻辑
+            AdventurerUI.Instance.ShowWin();
         }
     }
 
@@ -374,6 +383,7 @@ public class DataManager : Singleton<DataManager>
 
         // 这里可以添加失败条件和逻辑，例如冒险者死亡或时间耗尽
         Debug.Log("游戏失败！");
+        AdventurerUI.Instance.ShowLose();
         // 这里可以添加失败界面或其他逻辑
     }
 }

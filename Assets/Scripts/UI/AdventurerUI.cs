@@ -16,6 +16,11 @@ public class AdventurerUI : MonoBehaviour
     [SerializeField] private float startX;
     [SerializeField] private float endX;
     [SerializeField] private RectTransform marker;
+    
+    public GameObject winPanel;
+    public GameObject losePanel;
+    private bool isGameEnd = false;
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,26 +33,37 @@ public class AdventurerUI : MonoBehaviour
 
     void Update()
     {
+
         UpdateCastleHP();
         UpdateMarker();
+
+
+        if (isGameEnd)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                ReturnToMenu();
+            }
+        }
     }
 
     void UpdateCastleHP()
     {
+        Debug.Log("更新血条: " + DataManager.Instance.castleHealth);
         float current = DataManager.Instance.castleHealth;
         float max = DataManager.Instance.castleMaxHealth;
-        castleSlider.value = current / max;
+        castleSlider.value = Mathf.Clamp01(current / max);
     }
     
     void UpdateMarker()
     {
-        float current = DataManager.Instance.targetCoinCount;
-        float max = DataManager.Instance.coinCount;
+        float current = DataManager.Instance.coinCount;
+        float max = DataManager.Instance.targetCoinCount;
 
         if (max <= 0) return;
 
         float percent = Mathf.Clamp01(current / max);
-        
+
         float x = Mathf.Lerp(startX, endX, percent);
 
         marker.anchoredPosition = new Vector2(x, marker.anchoredPosition.y);
@@ -83,5 +99,27 @@ public class AdventurerUI : MonoBehaviour
         techTree.SetActive(false);
         data.SetActive(true);
     }
-    
+    public void ShowWin()
+    {
+        isGameEnd = true;
+
+        Time.timeScale = 0f;
+        winPanel.SetActive(true);
+    }
+
+    public void ShowLose()
+    {
+        isGameEnd = true;
+
+        Time.timeScale = 0f;
+        losePanel.SetActive(true);
+    }
+
+    void ReturnToMenu()
+    {
+        Time.timeScale = 1f; // ⚠️必须恢复
+
+        SceneLoader.Instance.LoadScene("StartScene"); // 改成你的主菜单场景名
+    }
 }
+
