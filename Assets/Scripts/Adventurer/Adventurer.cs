@@ -64,7 +64,7 @@ public class Adventurer : MonoBehaviour
         // 检查当前所在区域
         DetectCurrentArea();
         UpdateAreaEffect();
-        
+
         // 初始放置时，增加当前区域计数（休息区）
         // 注意：怪物类型容量在 DataManager.TryBuyMonster 中已经增加，这里不再重复
         if (DataManager.Instance != null)
@@ -91,7 +91,7 @@ public class Adventurer : MonoBehaviour
             // 减少区域计数
             DataManager.Instance.DecrementAreaCount(currentAreaIndex);
             Debug.Log($"Adventurer销毁: 区域{currentAreaIndex}, 区域容量-1");
-            
+
             // 怪物类型计数减少
             DecrementMonsterTypeCount();
             Debug.Log($"Adventurer销毁: 怪物类型容量-1, 当前: {DataManager.Instance.goblinCurrentCount + DataManager.Instance.slimeCurrentCount + DataManager.Instance.skeletonCurrentCount}");
@@ -109,7 +109,7 @@ public class Adventurer : MonoBehaviour
         }
 
         UpdateHealthBar();
-        
+
         //罢工逻辑
         if (currentHealth < 0 && isTired == false)
         {
@@ -123,7 +123,7 @@ public class Adventurer : MonoBehaviour
         {
             StartCoroutine(WorkerDieAnim());
         }
-        
+
         //从罢工中恢复的逻辑
         if (currentHealth >= maxHealth && currentState == adventurerState.DEFEAT)
         {
@@ -132,9 +132,9 @@ public class Adventurer : MonoBehaviour
             UpdateAreaEffect();
             healthBar.color = Color.green;
         }
-        
+
         //获取金币逻辑
-        if (workTimer < 0 && currentState != adventurerState.DEFEAT && 
+        if (workTimer < 0 && currentState != adventurerState.DEFEAT &&
             currentState != adventurerState.REST && currentState != adventurerState.ISDRAGGING)
         {
             GetCoin();
@@ -242,7 +242,7 @@ public class Adventurer : MonoBehaviour
 
     // ========== 保留原有的 MonoBehaviour 事件用于兼容性（可选择禁用）==========
     // 如果使用事件管理器，可以注释掉以下方法
-    
+
     // protected virtual void OnMouseEnter() { OnEventMouseEnter(); }
     // protected virtual void OnMouseDrag() { /* 使用事件管理器，禁用内置 */ }
     // protected virtual void OnMouseUp() { /* 使用事件管理器，禁用内置 */ }
@@ -259,7 +259,7 @@ public class Adventurer : MonoBehaviour
         if (collider != null && currentState != adventurerState.DEFEAT)
         {
             string layerName = LayerMask.LayerToName(collider.gameObject.layer);
-            
+
             switch (layerName)
             {
                 case "EasyArea":
@@ -295,7 +295,7 @@ public class Adventurer : MonoBehaviour
         int oldArea = dragStartAreaIndex;
         int targetArea = 1; // 默认休息区
         bool movedToRestArea = false;
-        
+
         // 检测放置位置
         int layerMask = LayerMask.GetMask("EasyArea", "NormalArea", "HardArea", "RestArea");
         Collider2D collider = Physics2D.OverlapPoint(transform.position, layerMask);
@@ -304,7 +304,7 @@ public class Adventurer : MonoBehaviour
         {
             string layerName = LayerMask.LayerToName(collider.gameObject.layer);
             currentState = adventurerState.REST;
-            
+
             switch (layerName)
             {
                 case "EasyArea":
@@ -324,9 +324,9 @@ public class Adventurer : MonoBehaviour
                     currentState = adventurerState.REST;
                     break;
             }
-            
+
             // 检查目标区域是否已满（休息区永远可以放置）
-            if (targetArea != 1 && DataManager.Instance != null && 
+            if (targetArea != 1 && DataManager.Instance != null &&
                 !DataManager.Instance.CanPlaceInArea(targetArea))
             {
                 // 区域已满，移动到休息区
@@ -354,7 +354,7 @@ public class Adventurer : MonoBehaviour
 
         // 更新currentAreaIndex
         currentAreaIndex = targetArea;
-        
+
         // 更新区域计数：先减少原区域，再增加新区域
         if (oldArea != currentAreaIndex)
         {
@@ -362,7 +362,7 @@ public class Adventurer : MonoBehaviour
             DataManager.Instance.IncrementAreaCount(currentAreaIndex);
             Debug.Log($"区域计数更新: {oldArea} -> {currentAreaIndex}");
         }
-        
+
         // 更新区域效果
         UpdateAreaEffect();
     }
@@ -373,7 +373,7 @@ public class Adventurer : MonoBehaviour
     protected void UpdateAreaCountOnMove(int fromArea)
     {
         if (DataManager.Instance == null) return;
-        
+
         if (fromArea != currentAreaIndex)
         {
             DataManager.Instance.DecrementAreaCount(fromArea);
@@ -388,7 +388,7 @@ public class Adventurer : MonoBehaviour
     protected void UpdateAreaEffect()
     {
         if (DataManager.Instance == null) return;
-        
+
         if (currentState == adventurerState.REST)
         {
             currentTime = DataManager.Instance.area1Time;
@@ -409,7 +409,7 @@ public class Adventurer : MonoBehaviour
             currentTime = DataManager.Instance.area4Time;
             currentDamage = DataManager.Instance.area4Damage;
         }
-        
+
         currentEfficiency = DataManager.Instance.adventurerEfficiency;
         workTimer = currentTime;
     }
@@ -429,7 +429,7 @@ public class Adventurer : MonoBehaviour
     protected void IncrementMonsterTypeCount()
     {
         if (DataManager.Instance == null) return;
-        
+
         if (adventurerName == "goblin")
         {
             DataManager.Instance.goblinCurrentCount++;
@@ -450,7 +450,7 @@ public class Adventurer : MonoBehaviour
     protected void DecrementMonsterTypeCount()
     {
         if (DataManager.Instance == null) return;
-        
+
         if (adventurerName == "goblin")
         {
             DataManager.Instance.goblinCurrentCount--;
@@ -470,6 +470,7 @@ public class Adventurer : MonoBehaviour
         float coins = currentEfficiency;
         DataManager.Instance.ChangeCoins(coins);
         ShowCoinText(coins);
+        AudioManager.Instance.PlaySFX("GetCoin", true);
 
         transform.DOKill();
         transform.DOScale(Vector3.one * 1.3f, 0.1f).SetEase(Ease.OutQuad)

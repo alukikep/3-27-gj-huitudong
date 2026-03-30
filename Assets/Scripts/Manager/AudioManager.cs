@@ -15,12 +15,6 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
-    // 优化3: 预创建 AudioSource 池
-    [Header("SFX Pool")]
-    public int sfxPoolSize = 10;
-    private List<AudioSource> sfxPool = new List<AudioSource>();
-    private int poolIndex = 0;
-
     void Awake()
     {
         if (Instance == null)
@@ -44,16 +38,6 @@ public class AudioManager : MonoBehaviour
             {
                 soundDictionary.Add(s.name, s);
             }
-        }
-
-        // 优化2: 预创建 SFX AudioSource 池
-        for (int i = 0; i < sfxPoolSize; i++)
-        {
-            GameObject sfxObj = new GameObject("SFX_Pool_" + i);
-            sfxObj.transform.parent = this.transform;
-            AudioSource source = sfxObj.AddComponent<AudioSource>();
-            sfxObj.SetActive(false);
-            sfxPool.Add(source);
         }
     }
 
@@ -111,10 +95,9 @@ public class AudioManager : MonoBehaviour
             return;
         }
         Sound s = soundDictionary[name];
-
-        // 从对象池获取 AudioSource
-        AudioSource sfxSource = sfxPool[poolIndex];
-        poolIndex = (poolIndex + 1) % sfxPool.Count;
+        GameObject sfxObject = new GameObject("SFX_" + s.name);
+        sfxObject.transform.parent = Camera.main.transform;
+        AudioSource sfxSource = sfxObject.AddComponent<AudioSource>();
 
         sfxSource.clip = s.clip;
         sfxSource.volume = s.volume * sfxVolume * masterVolume;
@@ -126,17 +109,8 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.pitch = s.pitch;
         }
-
         sfxSource.Play();
-        StartCoroutine(ReturnToPoolCoroutine(sfxSource, s.clip.length + 0.1f));
-    }
-
-    private IEnumerator ReturnToPoolCoroutine(AudioSource source, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        source.Stop();
-        source.clip = null;
-        source.gameObject.SetActive(false);
+        Destroy(sfxObject, s.clip.length + 0.1f);
     }
 
     //音量调节

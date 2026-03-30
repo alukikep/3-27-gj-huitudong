@@ -55,6 +55,7 @@ public class TechTreeManager : MonoBehaviour
         if (playerGold < node.costGold || playerTech < node.costTech)
         {
             Debug.Log("资源不足");
+            AudioManager.Instance.PlaySFX("TechCantUnlock", true);
             return;
         }
 
@@ -73,6 +74,7 @@ public class TechTreeManager : MonoBehaviour
 
         // 更新 UI
         GetUI(id)?.SetUnlocked();
+        AudioManager.Instance.PlaySFX("TechUnlock", true);
         EventManager.Broadcast("UnlockTechTree", id);//添加事件广播
 
         // 刷新周围节点状态

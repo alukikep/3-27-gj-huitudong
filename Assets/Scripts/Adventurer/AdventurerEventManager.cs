@@ -53,7 +53,7 @@ public class AdventurerEventManager : MonoBehaviour
         if (isDragging && currentDraggingAdventurer != null)
         {
             HandleDragging(mouseScreenPos);
-            
+
             // 检测鼠标释放
             if (Input.GetMouseButtonUp(0))
             {
@@ -116,6 +116,7 @@ public class AdventurerEventManager : MonoBehaviour
         isDragging = true;
 
         // 调用单位的拖拽开始方法
+        AudioManager.Instance.PlaySFX("PickUp", true);
         adventurer.OnEventMouseDown();
     }
 
@@ -134,6 +135,7 @@ public class AdventurerEventManager : MonoBehaviour
     private void HandleMouseUp(Adventurer adventurer)
     {
         if (adventurer == null) return;
+        AudioManager.Instance.PlaySFX("Place", true);
 
         // 调用单位的拖拽结束方法
         adventurer.OnEventMouseUp();

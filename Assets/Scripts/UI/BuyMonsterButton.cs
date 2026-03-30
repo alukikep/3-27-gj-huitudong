@@ -20,6 +20,7 @@ public class BuyMonsterButton : MonoBehaviour
 
     void SpawnMonster()
     {
+        AudioManager.Instance.PlaySFX("Buy", true);
         Instantiate(monsterPrefab, DataManager.Instance.restAreaPosition.position, Quaternion.identity);
     }
 }
