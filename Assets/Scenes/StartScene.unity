@@ -772,8 +772,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1730342916}
   - component: {fileID: 1730342915}
+  - component: {fileID: 1730342917}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -808,6 +809,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1730342917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730342914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1876c74ca5a268644bbb73402b8f1c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: GetCoin
+    clip: {fileID: 8300000, guid: 74e6c449c03f9844d955a0cb75d25292, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TechUnlock
+    clip: {fileID: 8300000, guid: 42b12916736172647a09210a0f14d8b7, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TechCantUnlock
+    clip: {fileID: 8300000, guid: 694ef3d492c7e074fb72cd1125d7a33b, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Place
+    clip: {fileID: 8300000, guid: 5d136cb8469864d4d97622682877555d, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Buy
+    clip: {fileID: 8300000, guid: b9210533ff3848842ac7e419a26c1cb1, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PickUp
+    clip: {fileID: 8300000, guid: 1e9a957444840244ea1c58178fe1888e, type: 3}
+    volume: 0.502
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  masterVolume: 1
+  musicVolume: 1
+  sfxVolume: 1
 --- !u!1 &1909986598
 GameObject:
   m_ObjectHideFlags: 0
