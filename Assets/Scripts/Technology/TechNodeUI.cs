@@ -45,15 +45,15 @@ public class TechNodeUI : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
     {
         if (isUnlocked)
         {
-            icon.color = Color.green; // 已解锁
+            icon.color = Color.white; // 已解锁
         }
         else if (isAvailable)
         {
-            icon.color = Color.white; // 可解锁
+            icon.color = Color.gray; // 可解锁
         }
         else
         {
-            icon.color = Color.red; // 未开放
+            icon.color = new Color(0.1f,0.1f,0.1f,1); // 未开放
         }
     }
 
@@ -67,7 +67,7 @@ public class TechNodeUI : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         string content =
-            $"<b>消耗：</b>{data.costGold}金币 / {data.costTech}科技\n" +
+            $"<b>消耗：</b>{data.costGold}金币 " +
             $"{data.description}";
 
         TooltipManager.Instance.Show(content);

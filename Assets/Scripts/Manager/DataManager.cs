@@ -80,7 +80,7 @@ public class DataManager : Singleton<DataManager>
         GameTime += Time.deltaTime;
         AdventurerUI.Instance.UpdateTimer(GameTime);
         AdventurerUI.Instance.UpdateCoin(coinCount);
-        castleHealth -= Time.deltaTime * castleDamage; // 假设每秒减少5点血量，实际可以根据怪物数量和类型调整
+        castleHealth = Mathf.Max(0, castleHealth - Time.deltaTime * castleDamage); // 假设每秒减少5点血量，实际可以根据怪物数量和类型调整
         if (castleHealth <= 0)
         {
             GameLose();
