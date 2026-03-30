@@ -8,7 +8,10 @@ public class DataManager : Singleton<DataManager>
     //area2 轻工厂
     //area3 重工厂
     //area4 地狱工厂
-
+    public SpriteRenderer area3SpriteRenderer;
+    public SpriteRenderer area4SpriteRenderer;
+    public Sprite area3Sprite;
+    public Sprite area4Sprite;
     //后续有需求可以用SO填数据
     [Header("区域数据")]
     public float area1Time;//冒险者在每个区域的工作效率，可以设置为获取金币时间间隔或者获取金币倍率，我个人倾向于获取金币时间间隔
@@ -211,6 +214,7 @@ public class DataManager : Singleton<DataManager>
             case 4:
                 //解锁area4
                 isArea4Unlocked = true;
+                area4SpriteRenderer.sprite = area4Sprite; // 切换到地狱工厂的背景图
                 area4MaxCount += 4;
                 break;
             case 5:
@@ -238,6 +242,7 @@ public class DataManager : Singleton<DataManager>
             case 11:
                 //解锁熔炉
                 isArea3Unlocked = true;
+                area3SpriteRenderer.sprite = area3Sprite; // 切换到重工厂的背景图
                 area3MaxCount += 4;
                 break;
             case 12:
