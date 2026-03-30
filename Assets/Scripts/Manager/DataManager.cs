@@ -66,12 +66,13 @@ public class DataManager : Singleton<DataManager>
 
     public void StartGame()
     {
+        AudioManager.Instance.PlayMusic("Game");
         // 初始化游戏数据
         castleHealth = 1200;
         coinCount = 0;
         castleHealth = castleMaxHealth;
     }
-    
+
     void OnEnable()
     {
         EventManager.AddListener<int>("UnlockTechTree", TechTreeEffect);

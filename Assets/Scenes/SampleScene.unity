@@ -694,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00008671762, y: 410.56314}
+  m_AnchoredPosition: {x: -0.00008671762, y: 410.56265}
   m_SizeDelta: {x: 0, y: 1331.5326}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &76241602
@@ -2594,7 +2594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  cost: 0
+  cost: 30
   monsterPrefab: {fileID: 910436356979593532, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
   icon: {fileID: 549711018}
   lockedSprite: {fileID: 0}
@@ -2709,6 +2709,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf3b52a28a6b76f49a40d1712cc359c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &631528373
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 910436356979593532, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_Name
+      value: adventurer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.19209
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.1381361
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.094436
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997703644092754076, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c2f4c91b1f92a4c4fbd44b77a48df86b, type: 3}
 --- !u!1 &639889566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,7 +3040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 4
-  cost: 0
+  cost: 300
   monsterPrefab: {fileID: 4875404681712079763, guid: bb17e7aa8d7d12c4a90ab81e717cf974, type: 3}
   icon: {fileID: 756196843}
   lockedSprite: {fileID: -102115870, guid: f1d300b081670604c9b0856800ba6613, type: 3}
@@ -3509,7 +3566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 3
-  cost: 0
+  cost: 150
   monsterPrefab: {fileID: 5399094680126577862, guid: f9d5d951a6355394fbe78672f940131a, type: 3}
   icon: {fileID: 906234946}
   lockedSprite: {fileID: 1739772760, guid: f1d300b081670604c9b0856800ba6613, type: 3}
@@ -3660,7 +3717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 1
-  cost: 0
+  cost: 10
   monsterPrefab: {fileID: 6491756975265842855, guid: 9a1fa4a9a4a61814cbfb047152a3ae67, type: 3}
   icon: {fileID: 910239776}
   lockedSprite: {fileID: -1621530425, guid: f1d300b081670604c9b0856800ba6613, type: 3}
@@ -7616,7 +7673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 2
-  cost: 0
+  cost: 200
   monsterPrefab: {fileID: 4296461340104811592, guid: 779aef24574b4e748aafc2692d234653, type: 3}
   icon: {fileID: 1777185851}
   lockedSprite: {fileID: 1774594905, guid: f1d300b081670604c9b0856800ba6613, type: 3}
@@ -7870,8 +7927,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 125552817}
   m_HandleRect: {fileID: 125552816}
   m_Direction: 2
-  m_Value: -0.0000011892979
-  m_Size: 0.6916583
+  m_Value: 0
+  m_Size: 0.6367919
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8410,11 +8467,11 @@ MonoBehaviour:
   area4Sprite: {fileID: -1890997532, guid: 7020ff3ea90743547b88f9246e28882a, type: 3}
   area1Time: 10
   area1Damage: -5
-  area2Time: 5
-  area2Damage: -1
+  area2Time: 3
+  area2Damage: 1
   area3Time: 1
   area3Damage: 4
-  area4Time: 0.5
+  area4Time: 0.4
   area4Damage: 10
   adventurerEfficiency: 2
   coinCount: 0
@@ -8965,3 +9022,4 @@ SceneRoots:
   - {fileID: 1272216404}
   - {fileID: 1407772637}
   - {fileID: 503813786}
+  - {fileID: 631528373}

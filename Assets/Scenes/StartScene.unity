@@ -723,6 +723,18 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: StartMenu
+    clip: {fileID: 8300000, guid: 6de04635921ae1a45b43c6cb769c0f60, type: 3}
+    volume: 0.493
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Game
+    clip: {fileID: 8300000, guid: 17ae68cd0df5af34d9cca54c880c814b, type: 3}
+    volume: 0.493
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   masterVolume: 1
   musicVolume: 1
   sfxVolume: 1

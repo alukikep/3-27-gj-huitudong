@@ -267,7 +267,7 @@ MonoBehaviour:
   currentEfficiency: 1
   currentTime: 1
   currentDamage: 1
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   currentState: 2
   coinsTextPrefab: {fileID: 0}

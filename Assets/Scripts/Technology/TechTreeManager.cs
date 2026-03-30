@@ -13,7 +13,7 @@ public class TechTreeManager : MonoBehaviour
     private Dictionary<Vector2Int, int> grid = new();
     private HashSet<int> unlockedNodes = new();
 
-    public float  playerGold ;
+    public float playerGold;
     /*public int playerTech = 100;*/
 
     void Start()
@@ -53,14 +53,14 @@ public class TechTreeManager : MonoBehaviour
     {
         var node = nodeDict[id];
 
-        if (playerGold < node.costGold )
+        if (DataManager.Instance.coinCount < node.costGold)
         {
             Debug.Log("资源不足");
             AudioManager.Instance.PlaySFX("TechCantUnlock", true);
             return;
         }
 
-        playerGold -= node.costGold;
+        DataManager.Instance.coinCount -= node.costGold;
 
         UnlockNode(id, false);
     }

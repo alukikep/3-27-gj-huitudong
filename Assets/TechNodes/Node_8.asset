@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Node_8
   m_EditorClassIdentifier: 
   id: 8
-  costGold: 100
+  costGold: 200
   costTech: 10
   position: {x: 2, y: 2}
   unlockedByDefault: 0
