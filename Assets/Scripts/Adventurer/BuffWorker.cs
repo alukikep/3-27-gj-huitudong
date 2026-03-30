@@ -242,6 +242,9 @@ public class BuffWorker : Adventurer
                 Debug.Log("BuffWorker: 应用困难区debuff");
                 break;
         }
+
+        // 通知所有单位区域数值已变化
+        EventManager.Broadcast("AreaBuffChanged");
     }
 
     /// <summary>
@@ -276,6 +279,9 @@ public class BuffWorker : Adventurer
         }
 
         isBuffActive = false;
+
+        // 通知所有单位区域数值已变化
+        EventManager.Broadcast("AreaBuffChanged");
     }
 
     /// <summary>

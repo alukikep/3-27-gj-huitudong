@@ -77,11 +77,13 @@ public class Adventurer : MonoBehaviour
     protected virtual void OnEnable()
     {
         EventManager.AddListener("AreaCheck", CheckAreaCallback);
+        EventManager.AddListener("AreaBuffChanged", OnAreaBuffChangedCallback);
     }
 
     protected virtual void OnDisable()
     {
         EventManager.RemoveListener("AreaCheck", CheckAreaCallback);
+        EventManager.RemoveListener("AreaBuffChanged", OnAreaBuffChangedCallback);
     }
 
     protected virtual void OnDestroy()
@@ -420,6 +422,14 @@ public class Adventurer : MonoBehaviour
     protected void CheckAreaCallback()
     {
         DetectCurrentArea();
+        UpdateAreaEffect();
+    }
+
+    /// <summary>
+    /// EventManager的回调，用于区域buff变化时更新区域效果
+    /// </summary>
+    protected void OnAreaBuffChangedCallback()
+    {
         UpdateAreaEffect();
     }
 
